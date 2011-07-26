@@ -96,7 +96,7 @@ def num2text(num, main_units=((u'', u'', u''), 'm')):
     name = []
     while rest > 0:
         plural, nme = thousand(rest % 1000, _orders[ord][1])
-        if nme:
+        if nme or ord == 0:
             name.append(_orders[ord][0][plural])
         name += nme
         rest /= 1000
@@ -105,7 +105,9 @@ def num2text(num, main_units=((u'', u'', u''), 'm')):
     return ' '.join(name).strip()
 
 
-def decimal2text(value, places=2, int_units=None, exp_units=None):
+def decimal2text(value, places=2,
+                 int_units=(('', '', ''), 'm'),
+                 exp_units=(('', '', ''), 'm')):
     q = decimal.Decimal(10) ** -places
     integral, exp = str(value.quantize(q)).split('.')
     return u'{} {}'.format(
@@ -181,6 +183,8 @@ class TestStrToText(unittest.TestCase):
         self.assertEqual(num2text(0, male_units), u'ноль рублей')
         self.assertEqual(num2text(0, female_units), u'ноль копеек')
 
+        self.assertEqual(num2text(3000, male_units), u'три тысячи рублей')
+
     def test_decimal2text(self):
         int_units = ((u'рубль', u'рубля', u'рублей'), 'm')
         exp_units = ((u'копейка', u'копейки', u'копеек'), 'f')
@@ -209,13 +213,28 @@ class TestStrToText(unittest.TestCase):
                 int_units=int_units,
                 exp_units=exp_units),
             u'сто одиннадцать рублей ноль копеек')
+        self.assertEqual(
+            decimal2text(
+                decimal.Decimal('3000.00'),
+                int_units=int_units,
+                exp_units=exp_units),
+            u'три тысячи рублей ноль копеек')
 
 
 if __name__ == '__main__':
     import sys
     if len(sys.argv) > 1:
         try:
-            print num2text(int(sys.argv[1]))
+            num = sys.argv[1]
+            if '.' in num:
+                print decimal2text(
+                    decimal.Decimal(num),
+                    int_units=((u'штука', u'штуки', u'штук'), 'f'),
+                    exp_units=((u'кусок', u'куска', u'кусков'), 'f'))
+            else:
+                print num2text(
+                    int(num),
+                    main_units=((u'штука', u'штуки', u'штук'), 'f'))
         except ValueError:
             print >> sys.stderr, "Invalid argument {}".format(sys.argv[1])
         sys.exit()
