@@ -230,7 +230,7 @@ if __name__ == '__main__':
                 print decimal2text(
                     decimal.Decimal(num),
                     int_units=((u'штука', u'штуки', u'штук'), 'f'),
-                    exp_units=((u'кусок', u'куска', u'кусков'), 'f'))
+                    exp_units=((u'кусок', u'куска', u'кусков'), 'm'))
             else:
                 print num2text(
                     int(num),
