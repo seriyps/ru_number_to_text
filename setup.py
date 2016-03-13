@@ -7,12 +7,13 @@ with open(os.path.join(here, 'README.md')) as f:
 
 
 setup(
-    name='ru-number-to-text',
+    name='num2t4ru',
     version='0.1',
     author='Sergey Prokhorov',
     author_email='me@seriyps.ru',
     url='https://github.com/seriyps/ru_number_to_text',
     keywords='plural forms',
+    license="Apache License 2.0",
     test_suite='tests',
     packages=find_packages(),
     long_description=open(os.path.join(os.path.dirname(__file__), 'README.md')).read(),
