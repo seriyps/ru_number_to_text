@@ -1,10 +1,13 @@
 # -*- coding: utf8 -*-
 '''
 Created on 04.07.2011
+Changed on 13.03.2016 by Artem Tiumentcev
 
 @author: Sergey Prokhorov <me@seriyps.ru>
 '''
 import decimal
+import math
+
 
 units = (
     u'ноль',
@@ -59,7 +62,7 @@ def thousand(rest, sex):
     else:
         data = ((teens, 10), (hundreds, 1000))
     for names, x in data:
-        cur = ((rest - prev) % x) * 10 / x
+        cur = int(((rest - prev) % x) * 10 / x)
         prev = rest % x
         if x == 10 and use_teens:
             plural = 2
@@ -78,7 +81,7 @@ def thousand(rest, sex):
             else:
                 plural = 2
         else:
-            name.append(names[cur - 1])
+            name.append(names[cur-1])
     return plural, name
 
 
@@ -99,7 +102,7 @@ def num2text(num, main_units=((u'', u'', u''), 'm')):
         if nme or ord == 0:
             name.append(_orders[ord][0][plural])
         name += nme
-        rest /= 1000
+        rest = int(rest / 1000)
         ord += 1
     name.reverse()
     return ' '.join(name).strip()
@@ -108,7 +111,9 @@ def num2text(num, main_units=((u'', u'', u''), 'm')):
 def decimal2text(value, places=2,
                  int_units=(('', '', ''), 'm'),
                  exp_units=(('', '', ''), 'm')):
+    value = decimal.Decimal(value)
     q = decimal.Decimal(10) ** -places
+
     integral, exp = str(value.quantize(q)).split('.')
     return u'{} {}'.format(
         num2text(int(integral), int_units),
@@ -196,13 +201,13 @@ class TestStrToText(unittest.TestCase):
             u'сто пять рублей двадцать четыре копейки')
         self.assertEqual(
             decimal2text(
-                decimal.Decimal('101.26'),
+                '101.26',
                 int_units=int_units,
                 exp_units=exp_units),
             u'сто один рубль двадцать шесть копеек')
         self.assertEqual(
             decimal2text(
-                decimal.Decimal('102.2450'),
+                '102.2450',
                 places=4,
                 int_units=int_units,
                 exp_units=exp_units),
@@ -227,15 +232,15 @@ if __name__ == '__main__':
         try:
             num = sys.argv[1]
             if '.' in num:
-                print decimal2text(
+                print(decimal2text(
                     decimal.Decimal(num),
                     int_units=((u'штука', u'штуки', u'штук'), 'f'),
-                    exp_units=((u'кусок', u'куска', u'кусков'), 'm'))
+                    exp_units=((u'кусок', u'куска', u'кусков'), 'm')))
             else:
-                print num2text(
+                print(num2text(
                     int(num),
-                    main_units=((u'штука', u'штуки', u'штук'), 'f'))
+                    main_units=((u'штука', u'штуки', u'штук'), 'f')))
         except ValueError:
-            print >> sys.stderr, "Invalid argument {}".format(sys.argv[1])
+            print (sys.stderr, "Invalid argument {}".format(sys.argv[1]))
         sys.exit()
     unittest.main()
