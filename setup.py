@@ -7,7 +7,7 @@ with open(os.path.join(here, 'README.md')) as f:
 
 
 setup(
-    name='ru_number_to_text',
+    name='ru-number-to-text',
     version='0.1',
     author='Sergey Prokhorov',
     author_email='me@seriyps.ru',
