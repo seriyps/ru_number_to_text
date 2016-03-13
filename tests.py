@@ -6,7 +6,7 @@ Created on 13.03.2016 by Artem Tiumentcev
 '''
 import unittest
 
-from number_to_text import num2text, decimal2text
+from num2t4ru import num2text, decimal2text
 
 
 class TestStrToText(unittest.TestCase):
