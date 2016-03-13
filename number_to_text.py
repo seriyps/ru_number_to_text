@@ -6,7 +6,6 @@ Changed on 13.03.2016 by Artem Tiumentcev
 @author: Sergey Prokhorov <me@seriyps.ru>
 '''
 import decimal
-import math
 
 
 units = (
@@ -195,7 +194,7 @@ class TestStrToText(unittest.TestCase):
         exp_units = ((u'копейка', u'копейки', u'копеек'), 'f')
         self.assertEqual(
             decimal2text(
-                decimal.Decimal('105.245'),
+                '105.245',
                 int_units=int_units,
                 exp_units=exp_units),
             u'сто пять рублей двадцать четыре копейки')
@@ -214,13 +213,13 @@ class TestStrToText(unittest.TestCase):
             u'сто два рубля две тысячи четыреста пятьдесят копеек')  # xD
         self.assertEqual(
             decimal2text(
-                decimal.Decimal('111'),
+                '111',
                 int_units=int_units,
                 exp_units=exp_units),
             u'сто одиннадцать рублей ноль копеек')
         self.assertEqual(
             decimal2text(
-                decimal.Decimal('3000.00'),
+                '3000.00',
                 int_units=int_units,
                 exp_units=exp_units),
             u'три тысячи рублей ноль копеек')
