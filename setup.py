@@ -8,7 +8,7 @@ with open(os.path.join(here, 'README.md')) as f:
 
 setup(
     name='num2t4ru',
-    version='0.1',
+    version='2.0.0',
     author='Sergey Prokhorov',
     author_email='me@seriyps.ru',
     url='https://github.com/seriyps/ru_number_to_text',
