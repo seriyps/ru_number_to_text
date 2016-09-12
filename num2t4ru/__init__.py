@@ -1,4 +1,4 @@
-# -*- coding: utf8 -*-
+# -*- coding: utf-8 -*-
 '''
 Created on 04.07.2011
 Changed on 13.03.2016 by Artem Tiumentcev
@@ -49,6 +49,8 @@ orders = (# plural forms and gender
     ((u'миллиард', u'миллиарда', u'миллиардов'), 'm'),
 )
 
+minus = u'минус'
+
 
 def thousand(rest, sex):
     """Converts numbers from 19 to 999"""
@@ -93,7 +95,7 @@ def num2text(num, main_units=((u'', u'', u''), 'm')):
     if num == 0:
         return ' '.join((units[0], _orders[0][0][2])).strip() # ноль
 
-    rest = num
+    rest = abs(num)
     ord = 0
     name = []
     while rest > 0:
@@ -103,6 +105,8 @@ def num2text(num, main_units=((u'', u'', u''), 'm')):
         name += nme
         rest = int(rest / 1000)
         ord += 1
+    if num < 0:
+        name.append(minus)
     name.reverse()
     return ' '.join(name).strip()
 

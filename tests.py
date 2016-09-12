@@ -1,4 +1,4 @@
-# -*- coding: utf8 -*-
+# -*- coding: utf-8 -*-
 '''
 Created on 13.03.2016 by Artem Tiumentcev
 
@@ -111,6 +111,12 @@ class TestStrToText(unittest.TestCase):
                 exp_units=exp_units),
             u'три тысячи рублей ноль копеек')
 
+    def test_negative(self):
+        self.assertEqual(num2text(-12345),
+                         u"минус двенадцать тысяч триста сорок пять")
+        self.assertEqual(
+            decimal2text('-123.45'),
+            u'минус сто двадцать три сорок пять')
 
 if __name__ == '__main__':
     import sys
